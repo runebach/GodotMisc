@@ -1,0 +1,91 @@
+[gd_scene load_steps=6 format=3 uid="uid://d13dyevdxoekb"]
+
+[ext_resource type="Texture2D" uid="uid://d3o8au2amqpke" path="res://PrototypeTexture.png" id="1_8h1lg"]
+[ext_resource type="PackedScene" uid="uid://237qke2sfdo8" path="res://PlayerController/player.tscn" id="1_il4jk"]
+[ext_resource type="PackedScene" uid="uid://oe8neunhdal" path="res://StateMachine/enemy.tscn" id="3_q7er5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c4smp"]
+albedo_color = Color(0.709343, 0.486276, 0.476482, 1)
+albedo_texture = ExtResource("1_8h1lg")
+uv1_scale = Vector3(0.1, 0.1, 0.1)
+uv1_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rx334"]
+albedo_color = Color(0.692397, 0.793265, 0.766619, 1)
+albedo_texture = ExtResource("1_8h1lg")
+uv1_triplanar = true
+
+[node name="Main" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="Floor" type="CSGBox3D" parent="Level"]
+use_collision = true
+size = Vector3(33, 1, 26)
+material = SubResource("StandardMaterial3D_c4smp")
+
+[node name="Floor2" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0.5)
+use_collision = true
+size = Vector3(11, 1, 9)
+material = SubResource("StandardMaterial3D_c4smp")
+
+[node name="Wall" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 12)
+use_collision = true
+size = Vector3(33, 4, 1)
+material = SubResource("StandardMaterial3D_rx334")
+
+[node name="Wall2" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2, 0)
+use_collision = true
+size = Vector3(1, 4, 25)
+material = SubResource("StandardMaterial3D_rx334")
+
+[node name="Wall3" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -12)
+use_collision = true
+size = Vector3(33, 4, 1)
+material = SubResource("StandardMaterial3D_rx334")
+
+[node name="Wall4" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 2, -0.5)
+use_collision = true
+size = Vector3(1, 4, 24)
+material = SubResource("StandardMaterial3D_rx334")
+
+[node name="Slope" type="CSGCombiner3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.99642, 1, 0)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Level/Slope"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5, -1.5)
+size = Vector3(6, 4, 4)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Level/Slope"]
+transform = Transform3D(0.799097, 0.601202, 0, -0.601202, 0.799097, 0, 0, 0, 1, 1.34136, 3.14834, -1.5)
+operation = 2
+size = Vector3(8, 4, 4)
+
+[node name="Slope2" type="CSGCombiner3D" parent="Level"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.00357723, 1, -6.6)
+use_collision = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Level/Slope2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5, -1.5)
+size = Vector3(6, 4, 4)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Level/Slope2"]
+transform = Transform3D(0.799097, 0.601202, 0, -0.601202, 0.799097, 0, 0, 0, 1, 1.34136, 3.14834, -1.5)
+operation = 2
+size = Vector3(8, 4, 4)
+
+[node name="Enemy" parent="." instance=ExtResource("3_q7er5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.07087, 4.5, -0.00858116)
+
+[node name="Player" parent="." instance=ExtResource("1_il4jk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 5, -3)

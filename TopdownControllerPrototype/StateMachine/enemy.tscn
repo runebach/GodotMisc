@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://oe8neunhdal"]
+
+[ext_resource type="PackedScene" uid="uid://bsp081pb14ddq" path="res://StateMachine/state_machine.tscn" id="1_c73e2"]
+[ext_resource type="Script" path="res://StateMachine/enemy.gd" id="1_eotvy"]
+[ext_resource type="Script" path="res://StateMachine/States/EnemyIdle.gd" id="2_lft6t"]
+[ext_resource type="Script" path="res://StateMachine/States/EnemyChasing.gd" id="4_pmkxd"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_w2vpp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7ifsc"]
+albedo_color = Color(0.837482, 0.0438512, 1.92523e-07, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_8ioj0"]
+material = SubResource("StandardMaterial3D_7ifsc")
+
+[node name="Enemy" type="CharacterBody3D"]
+script = ExtResource("1_eotvy")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_w2vpp")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("CapsuleMesh_8ioj0")
+skeleton = NodePath("../..")
+
+[node name="StateMachine" parent="." node_paths=PackedStringArray("initial_state") instance=ExtResource("1_c73e2")]
+initial_state = NodePath("EnemyIdle")
+
+[node name="EnemyIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy")]
+script = ExtResource("2_lft6t")
+enemy = NodePath("../..")
+
+[node name="EnemyChasing" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy")]
+script = ExtResource("4_pmkxd")
+enemy = NodePath("../..")
+
+[editable path="StateMachine"]

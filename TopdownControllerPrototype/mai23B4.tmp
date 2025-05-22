@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://d13dyevdxoekb"]
+
+[ext_resource type="PackedScene" uid="uid://237qke2sfdo8" path="res://player.tscn" id="1_il4jk"]
+[ext_resource type="PackedScene" uid="uid://bebhwvytgxrg6" path="res://player_camera.tscn" id="2_pjuub"]
+
+[node name="Main" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Level" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+size = Vector3(30, 1, 30)
+
+[node name="Player" parent="." node_paths=PackedStringArray("player_camera") instance=ExtResource("1_il4jk")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+player_camera = NodePath("../PlayerCamera")
+
+[node name="PlayerCamera" parent="." node_paths=PackedStringArray("player") instance=ExtResource("2_pjuub")]
+player = NodePath("../Player")
